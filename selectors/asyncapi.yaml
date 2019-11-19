@@ -1,0 +1,54 @@
+asyncapi: 2.0.0
+info:
+  title: Gate Manager Service
+  version: 1.0.0
+ 
+servers:
+  airportBroker:
+    url: broker.airport.com
+    protocol: amqp
+    protocolVersion: '1.0'
+ 
+channels:
+  /{airlineCode}/{flightCode}/updates:
+    parameters:
+      airlineCode:
+        schema:
+          type: string
+      flightCode:
+        location: $message.payload#/flight/code
+        schema:
+          type: string
+    subscribe:
+      bindings:
+        amqp10:
+          filters:
+            - type: apache.org:selector-filter
+              value: airlineCode = 'IBE' OR airlineCode = 'VLG'
+            - type: apache.org:no-local-filter
+          # - type: apache.org:legacy-amqp-topic-binding
+          #   value: '*.*.updates'
+      message:
+        schemaFormat: 'application/vnd.mulesoft.raml;version=1.0.0'
+        headers:
+          type: object
+          properties:
+            airlineCode:
+              type: string
+            flightCode:
+              type: string
+        payload:
+          type: object
+          properties:
+            flight:
+              type: object
+              properties:
+                origin: string
+                destination: string
+                code: string
+            gate:
+              type: object
+              properties:
+                current: string
+                previous: string
+            timestamp: datetime
