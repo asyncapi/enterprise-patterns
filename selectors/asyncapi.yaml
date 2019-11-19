@@ -20,22 +20,14 @@ channels:
         schema:
           type: string
     subscribe:
-      bindings:
-        amqp10:
-          filters:
-            - type: apache.org:selector-filter
-              value: airlineCode = 'IBE' OR airlineCode = 'VLG'
-            - type: apache.org:no-local-filter
-          # - type: apache.org:legacy-amqp-topic-binding
-          #   value: '*.*.updates'
       message:
         schemaFormat: 'application/vnd.mulesoft.raml;version=1.0.0'
         headers:
           type: object
+          required:
+            - departureCountry
           properties:
-            airlineCode:
-              type: string
-            flightCode:
+            departureCountry:
               type: string
         payload:
           type: object
@@ -52,3 +44,9 @@ channels:
                 current: string
                 previous: string
             timestamp: datetime
+      bindings:
+        amqp1:
+          filters:
+            - type: apache.org:selector-filter
+              value: departureCountry = 'Spain' OR departureCountry = 'USA'
+            - type: apache.org:no-local-filter
