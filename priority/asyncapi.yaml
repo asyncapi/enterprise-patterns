@@ -11,12 +11,6 @@ servers:
  
 channels:
   /{airlineCode}/{flightCode}/updates:
-    bindings:
-      amqp1:
-        queue:
-          name: prioritizedQueue1
-          priority: true
-          maxPriority: 10
     parameters:
       airlineCode:
         schema:
@@ -27,6 +21,9 @@ channels:
           type: string
     subscribe:
       message:
+        bindings:
+          amqp1:
+            priority: 4
         schemaFormat: 'application/vnd.mulesoft.raml;version=1.0.0'
         headers:
           type: object
@@ -50,6 +47,3 @@ channels:
                 current: string
                 previous: string
             timestamp: datetime
-        bindings:
-          amqp1:
-            priority: 4
