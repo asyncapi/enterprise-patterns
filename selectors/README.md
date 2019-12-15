@@ -91,6 +91,8 @@ In this case, `value` is required and MUST be a map of key/value pairs. The filt
 
 ### No local filter
 
+This filter is meant for telling the broker that a message must be accepted if and only if the message was originally sent to the container of the source on a separate connection from that which is currently receiving from the source. In other words, this filter is for not receving your own messages in scenarios where you're publishing and subscribing to the same channel.
+
 See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-no-local-filter) for more information.
 
 ```yaml
