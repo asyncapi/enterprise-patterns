@@ -4,7 +4,7 @@ Selectors are also known as filters in AMQP 1.0. This document goes through all 
 
 ## Introduction
 
-All information related to filters, should be placed in the AMQP 1.0 operation binding, i.e:
+All information related to filters, should be placed in the `amqp1` operation binding, i.e:
 
 ```yaml
 ...
@@ -25,7 +25,9 @@ These filters are mutually exclusive, i.e., they can't be used together but can 
 
 ### Legacy AMQP direct binding
 
-See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-legacy-amqp-direct-binding) for more information.
+This filter matches the behavior of a [direct exchange](https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-direct) in AMQP 0-9-1.
+
+See its [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-legacy-amqp-direct-binding) for more information.
 
 ```yaml
 ...
@@ -40,7 +42,9 @@ channels:
 
 ### Legacy AMQP topic binding
 
-See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-legacy-amqp-topic-binding) for more information.
+This filter matches the behavior of a [topic exchange](https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-topic) in AMQP 0-9-1.
+
+See its [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-legacy-amqp-topic-binding) for more information.
 
 ```yaml
 ...
@@ -58,7 +62,9 @@ In this case, `value` is optional and defaults to the AMQP topic representation 
 
 ### Legacy AMQP headers binding
 
-See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-legacy-amqp-headers-binding) for more information.
+This filter matches the behavior of a [headers exchange](https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-headers) in AMQP 0-9-1.
+
+See its [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-legacy-amqp-headers-binding) for more information.
 
 ```yaml
 ...
@@ -87,13 +93,13 @@ channels:
 
 In this case, `value` is required and MUST be a map of key/value pairs. The filter MUST pass when and only when **all** the headers match the given value.
 
-## JMS and Xquery support
+## JMS
 
 ### No local filter
 
 This filter is meant for telling the broker that a message must be accepted if and only if the message was originally sent to the container of the source on a separate connection from that which is currently receiving from the source. In other words, this filter is for not receving your own messages in scenarios where you're publishing and subscribing to the same channel.
 
-See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-no-local-filter) for more information.
+See its [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml#type-no-local-filter) for more information.
 
 ```yaml
 ...
@@ -123,7 +129,9 @@ channels:
 
 ### Selector filter
 
-See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml) for more information.
+This filter allows you to select what information you want to get from the channel. It uses a SQL-like syntax.
+
+See its [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml) for more information.
 
 ```yaml
 ...
@@ -147,9 +155,11 @@ channels:
               value: departureCountry = 'Spain' OR departureCountry = 'USA'
 ```
 
-### Xquery
+## XQuery
 
-See [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml) for more information.
+This filter allows you to select what information you want to get from the channel. It uses the [XQuery](https://www.w3.org/XML/Query/) syntax.
+
+See its [definition](https://svn.apache.org/repos/asf/qpid/trunk/qpid/specs/apache-filters.xml) for more information.
 
 ```yaml
 ...
