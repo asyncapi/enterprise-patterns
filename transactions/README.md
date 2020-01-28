@@ -129,8 +129,7 @@ public class XATransactions {
          connection.start();
 
          XASession xaSession = connection.createXASession();
-         Session session = xaSession.getSession();
-         MessageConsumer xaConsumer = session.createConsumer(topic);
+         MessageConsumer xaConsumer = xaSession.createConsumer(topic);
          
          Xid xid1 = new DummyXid("my-transaction-id".getBytes(StandardCharsets.US_ASCII), 1, UUIDGenerator.getInstance().generateStringUUID().getBytes());
          XAResource xaRes = xaSession.getXAResource();
@@ -143,8 +142,8 @@ public class XATransactions {
 
          
          xaRes.end(xid1, XAResource.TMSUCCESS);
-         xaRes.prepare(xid2);
-         xaRes.commit(xid2, false);
+         xaRes.prepare(xid1);
+         xaRes.commit(xid1, false);
       } finally {
          if (initialContext != null) {
             initialContext.close();
