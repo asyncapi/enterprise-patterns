@@ -158,7 +158,7 @@ public class XATransactions {
 
 ### Kafka transactions
 
-In the case of Kafka, the transaction id is part of the protocol and can be set on producers as `transactional.id`. We can define it with AsyncAPI as follows:
+In the case of Kafka, the transaction id is part of the protocol and can be set on producers as `transactional.id`. Along with the id, we can fine tune things like `transaction.timeout.ms` and `isolation.level` (for consumers only). We can define them with AsyncAPI as follows:
 
 ```yaml
 ...
@@ -167,7 +167,10 @@ channels:
     publish:
       bindings:
         kafka:
-          transactionalId: my-transactional-id
+          transaction:
+            id: my-transactional-id # Maps to transactional.id
+            timeout: 5000 # Maps to transaction.timeout.ms
+            isolationLevel: read_committed # Maps to isolation.level. Defaults to read_uncommitted.
       message:
         ...
 ```
